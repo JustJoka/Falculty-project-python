@@ -3,7 +3,7 @@ from tkinter import messagebox
 import sqlite3
 
 #CRIANDO PAGINA DE LOGIN
-
+#CRIANDO O BANCO DE DADOS
 def criar_banco():
     conn = sqlite3.connect("usuarios.db")
     cursor = conn.cursor()
@@ -19,7 +19,7 @@ def criar_banco():
 
 criar_banco()
 
-
+#CRIANDO A FUNÇÃO DE VERIFICAR O LOGIN
 def verificar_login():
     usuario = entry_usuario.get().strip()
     senha = entry_senha.get().strip()
@@ -39,7 +39,7 @@ def verificar_login():
     else:
         messagebox.showerror("Erro ao logar!", "Usuário ou senha incorretos!")
 
-
+#CRIANDO FUNÇÃO PRA ABRIR A TABELA DE REGISTRO
 def abrir_tela_registro():
     janela.withdraw() #PARA ESCONDER A JANELA DE LOGIN
     janela_registro = tk.Toplevel()#CRIA UMA JANELA INDEPENDENTE NO PROGRAMA
@@ -49,13 +49,19 @@ def abrir_tela_registro():
 
     entrada_usuario = tk.StringVar()
     entrada_senha = tk.StringVar()
+    entrada_confirmar_senha = tk.StringVar()
 
     def registrar_usuario():
         usuario = entrada_usuario.get().strip()
         senha = entrada_senha.get().strip()
+        confirmar_senha = entrada_confirmar_senha.get().strip()
 
-        if not usuario or not senha:
+        if not usuario or not senha or not confirmar_senha:
             messagebox.showwarning("Erro ao registrar!", "Todos os campos são obrigatórios")
+            return
+        
+        if senha != confirmar_senha:
+            messagebox.showerror("Erro ao registrar!", "As senhas não coincidem!")
             return
         
         conn = sqlite3.connect("usuarios.db")
@@ -71,29 +77,47 @@ def abrir_tela_registro():
         finally:
             conn.close()
 
+    
+    #CRIANDO O FRAME PRINCIPAL DA PAGINA DE REGISTRO
+    frame_principal = tk.Frame(janela_registro, bg="#1E90FF")
+    frame_principal.pack(expand=True)
+
+
     #TITULO DA PAGINA REGISTRO
-    lbl_titulo = tk.Label(janela_registro, text="Registrar-se", bg="#1E90FF", fg="black", font=("Comfortaa", 30))
-    lbl_titulo.pack(pady=50)
+    lbl_titulo = tk.Label(frame_principal, text="Registrar-se", bg="#1E90FF", fg="black", font=("Comfortaa", 30))
+    lbl_titulo.pack(pady=40)
 
 
     #CRIANDO LABEL E ENTRY DO USUARIO DA PAGINA REGISTRO
-    lbl_usuario_registro = tk.Label(janela_registro, text="Usuário", bg="#1E90FF", fg="#000080", font=("Comfortaa", 15))
+    lbl_usuario_registro = tk.Label(frame_principal, text="Usuário", bg="#1E90FF", fg="#000080", font=("Comfortaa", 15))
     lbl_usuario_registro.pack(pady=20)
-    entry_usuario_registro = tk.Entry(janela_registro, width=50, textvariable=entrada_usuario, fg="#32CD32")
-    entry_usuario_registro.pack()
 
 
-    #CRIANDO LABEL E ENTRY DA SENHA DA PAGINA REGISTRO
-    lbl_senha_registro = tk.Label(janela_registro, text="Senha", bg="#1E90FF", fg="#000080", font=("Comfortaa", 15))
+    entry_usuario_registro = tk.Entry(frame_principal, width=50, textvariable=entrada_usuario, fg="#32CD32")
+    entry_usuario_registro.pack(pady=5)
+
+
+    #CRIANDO LABEL E ENTRY DA SENHA E DA CONFIRMAÇÃO DE SENHA DA PAGINA REGISTRO
+    lbl_senha_registro = tk.Label(frame_principal, text="Senha", bg="#1E90FF", fg="#000080", font=("Comfortaa", 15))
     lbl_senha_registro.pack(pady=20)
 
-    entry_senha_registro = tk.Entry(janela_registro, width=50, show="*", textvariable=entrada_senha, fg="#32CD32")
-    entry_senha_registro.pack()
+
+    entry_senha_registro = tk.Entry(frame_principal, width=50, show="*", textvariable=entrada_senha, fg="#32CD32")
+    entry_senha_registro.pack(pady=5)
+
+
+    lbl_confirmar_senha_registro = tk.Label(frame_principal, text="Confirmar Senha", bg="#1E90FF", fg="#000080", font=("Comfortaa", 15))
+    lbl_confirmar_senha_registro.pack(pady=20)
+
+    entry_confirmar_senha_registro = tk.Entry(frame_principal, width=50, show="*", textvariable=entrada_confirmar_senha, fg="#32CD32")
+    entry_confirmar_senha_registro.pack(pady=5)
 
 
     #CRIANDO O BOTAO DE REGISTRAR DA PAGINA REGISTRO
-    btn_registrar_registro = tk.Button(janela_registro, text="Registrar", command=registrar_usuario, bg="white", fg="#006400", font=("Comfortaa", 15))
+    btn_registrar_registro = tk.Button(frame_principal, text="Registrar", command=registrar_usuario, bg="white", fg="#006400", font=("Comfortaa", 15))
     btn_registrar_registro.pack(pady=20)
+
+
     btn_registrar_registro.bind("<Enter>", em_cima_botao)
     btn_registrar_registro.bind("<Leave>", sair_cima_botao)
 
@@ -113,35 +137,36 @@ janela = tk.Tk()
 janela.title("Minha Window")
 janela.geometry("800x600")
 janela.configure(bg="#98FB98")
-janela.resizable(False, False)
+janela.resizable(True, True)
 
 
-#CRIANDO A PALAVRA DESTAQUE DA PAGINA
-plv_destaque = tk.Label(janela, text="Login", font=("Comfortaa", 30), bg="#98FB98")
-plv_destaque.grid(padx=15, pady=10)
-plv_destaque.place(relx=0.5, rely=0.2, anchor="center")
+#CRIANDO O FRAME PRINCIPAL
+frame_principal = tk.Frame(janela, bg="#98FB98")
+frame_principal.pack(expand=True)
+
+
+#CRIANDO TITUTLO DA PAGINA
+titulo_login = tk.Label(frame_principal, text="Login", font=("Comfortaa", 30), bg="#98FB98")
+titulo_login.pack(pady=40)
 
 
 #CRIANDO O LABEL E O ENTRY 1
 #CAMPO USUARIO
-label1 = tk.Label(janela, text="Usuario", font=("Comfortaa", 15), bg="#98FB98", fg="#006400")
-label1.grid(column=0, row=0)
-label1.place(relx=0.5, rely=0.35, anchor="center")
+label1 = tk.Label(frame_principal, text="Usuario", font=("Comfortaa", 15), bg="#98FB98", fg="#006400")
+label1.pack(pady=5)
 
-entry_usuario = tk.Entry(janela, width=50, fg="#191970")
-entry_usuario.grid(row=1, column=0, padx=15, pady=10)
-entry_usuario.place(relx=0.5, rely=0.4, anchor="center")
+
+entry_usuario = tk.Entry(frame_principal, width=50, fg="#191970")
+entry_usuario.pack(pady=10)
 
 
 #CRIANDO O LABEL E O ENTRY 2
 #CAMPO DO USUARIO
-label2 = tk.Label(janela, text="Senha", font=("Comfortaa", 15), bg="#98FB98", fg="#006400")
-label2.grid(column=0, row=7)
-label2.place(relx=0.5, rely=0.55, anchor="center")
+label2 = tk.Label(frame_principal, text="Senha", font=("Comfortaa", 15), bg="#98FB98", fg="#006400")
+label2.pack(pady=5)
 
-entry_senha = tk.Entry(janela, width=50, show="*", fg="#191970")
-entry_senha.grid(column=0, row=10, padx=15, pady=10)
-entry_senha.place(relx=0.5, rely=0.6, anchor="center")
+entry_senha = tk.Entry(frame_principal, width=50, show="*", fg="#191970")
+entry_senha.pack(pady=10)
 
 
 #CRIANDO FUNCAO PRA ALTERAR O HOVER DO BOTAO
@@ -153,17 +178,15 @@ def sair_cima_botao(event):
 
 
 #CRIANDO O BOTÃO PRA LOGAR
-btn = tk.Button(janela, text="LOGAR", command=verificar_login, fg="#006400", bg="white", font=("Arial", 15), activebackground="#98FB98")
-btn.grid(column=0, row=13, padx=15, pady=5)
-btn.place(relx=0.5, rely=0.68, anchor="center")
+btn = tk.Button(frame_principal, text="LOGAR", command=verificar_login, fg="#006400", bg="white", font=("Arial", 15), activebackground="#98FB98")
+btn.pack(pady=15)
 btn.bind("<Enter>", em_cima_botao)
 btn.bind("<Leave>", sair_cima_botao)
 
 
 #CRIANDO BOTAO PRA REGISTRAR-SE
-btn_registrar = tk.Button(janela, text="REGISTRAR-SE", command=abrir_tela_registro, bg="white", fg="#4682B4", font=("Comfortaa", 15))
-btn_registrar.grid(column=0, row=15, padx=15, pady=5)
-btn_registrar.place(relx=0.5, rely=0.76, anchor="center")
+btn_registrar = tk.Button(frame_principal, text="REGISTRAR-SE", command=abrir_tela_registro, bg="white", fg="#4682B4", font=("Comfortaa", 15))
+btn_registrar.pack(pady=5)
 btn_registrar.bind("<Enter>", em_cima_botao)
 btn_registrar.bind("<Leave>", sair_cima_botao)
 
