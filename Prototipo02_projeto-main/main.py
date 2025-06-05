@@ -173,6 +173,39 @@ def abrir_controle_pedidos():
         spinbox_quantidade.insert(0, "1")
         entry_observacao.delete("1.0", tk.END)
 
+    def exibir_relatorios():
+        relatorios_janela = tk.Toplevel()
+        relatorios_janela.title("Relatórios")
+        relatorios_janela.geometry("700x600")
+        relatorios_janela.resizable(True, False)
+        relatorios_janela.configure(bg="#F2F2F2")
+        relatorios_janela.grab_set()
+
+        tree_relatorio = ttk.Treeview(relatorios_janela, columns=("ID", "Cliente", "Item", "Quantidade", "Observação"))
+
+        tree_relatorio.heading("ID", text="ID")
+        tree_relatorio.heading("Cliente", text="Cliente")
+        tree_relatorio.heading("Item", text="Item")
+        tree_relatorio.heading("Quantidade", text="Quantidade")
+        tree_relatorio.heading("Observação", text="Observação")
+
+        tree_relatorio.column("ID", width=50)
+        tree_relatorio.column("Cliente", width=150)
+        tree_relatorio.column("Item", width=250)
+        tree_relatorio.column("Quantidade", width=80)
+        tree_relatorio.column("Observação", width=250)
+
+        tree_relatorio.pack(expand=True, fill="both", pady=20, padx=10)
+
+        conn = sqlite3.connect("lanchonete.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM pedidos")
+        pedidos = cursor.fetchall()
+        conn.close()
+
+        for pedido in pedidos:
+            tree_relatorio.insert("", tk.END, values=pedido)
+
 
     #validando apenas números para Quantidade
     def validar_numeros(texto):
@@ -255,6 +288,9 @@ def abrir_controle_pedidos():
 
     btn_excluir = tk.Button(frame_botoes, text="Excluir pedido", bg="red", fg="white", font=("Verdana", 12, "bold"), command=excluir_pedido)
     btn_excluir.pack(side="left", padx=5)
+
+    btn_relatorios = tk.Button(frame_botoes, text="Relatórios", bg="#D41C00", fg="white", font=("Verdana", 12, "bold"), command=exibir_relatorios)
+    btn_relatorios.pack(side="left", padx=5)
 
 
 

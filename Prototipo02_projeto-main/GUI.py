@@ -155,7 +155,7 @@ titulo_login.pack(pady=40)
 
 #CRIANDO O LABEL E O ENTRY 1
 #CAMPO USUARIO
-label1 = tk.Label(frame_principal, text="Usuario", font=("Comfortaa", 15), bg="#B22222", fg="red")
+label1 = tk.Label(frame_principal, text="Usuario", font=("Comfortaa", 15), bg="#B22222", fg="White")
 label1.pack(pady=5)
 
 
@@ -165,7 +165,7 @@ entry_usuario.pack(pady=10)
 
 #CRIANDO O LABEL E O ENTRY 2
 #CAMPO DO USUARIO
-label2 = tk.Label(frame_principal, text="Senha", font=("Comfortaa", 15), bg="#B22222", fg="red")
+label2 = tk.Label(frame_principal, text="Senha", font=("Comfortaa", 15), bg="#B22222", fg="White")
 label2.pack(pady=5)
 
 entry_senha = tk.Entry(frame_principal, width=50, show="*", fg="red")
