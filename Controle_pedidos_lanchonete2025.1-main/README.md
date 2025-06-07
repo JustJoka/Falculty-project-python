@@ -1,2 +1,2 @@
 # trabalhoPython2025.1
-trabalho feito para simular controles de pedidos
+Controle de pedidos de uma lanchonete.
