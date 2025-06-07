@@ -4,7 +4,7 @@
 ![Screenshot do sistema](https://github.com/user-attachments/assets/7ea3061d-154b-48f8-9cbc-3fa747b81e23)
 
 ## Criadores
-victor gouveia(eu), kauan marques(kauanmqss), joao(JustJoka).
+victor gouveia(Aluno-preguica-origin), kauan marques(kauanmqss), joao(JustJoka,(Eu).
 ## Descrição
 Projeto de faculdade com finalidade de fazer um controle de pedidos de uma lanchonete, inspirado no KFC.
 
